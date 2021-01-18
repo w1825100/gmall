@@ -1,0 +1,35 @@
+server:
+  port: 18083
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+  sleuth:
+    sampler:
+      probability: 1
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    sender:
+      type: web
+    locator:
+      discovery:
+        enabled: false
+  redis:
+    port: 6379
+    host: 111.1.1.11
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://111.1.1.11:3306/guli_ums
+    username: root
+    password: 123456
+feign:
+  sentinel:
+    enabled: true
+mybatis-plus:
+  mapper-locations: classpath:mapper/ums/**/*.xml
+  type-aliases-package: com.atguigu.gmall.ums.entity
