@@ -1,5 +1,6 @@
 package com.atguigu.gmall.wms.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -9,7 +10,7 @@ import lombok.Data;
 
 /**
  * 商品库存
- * 
+ *
  * @author lgd
  * @email lgd@atguigu.com
  * @date 2021-01-18 21:27:45

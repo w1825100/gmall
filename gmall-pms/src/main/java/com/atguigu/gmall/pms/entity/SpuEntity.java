@@ -6,10 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * spu信息
- * 
+ *
  * @author lgd
  * @email lgd@atguigu.com
  * @date 2021-01-18 18:14:15
@@ -43,6 +44,7 @@ public class SpuEntity implements Serializable {
 	/**
 	 * 创建时间
 	 */
+
 	private Date createTime;
 	/**
 	 * 更新时间

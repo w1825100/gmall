@@ -33,3 +33,6 @@ feign:
 mybatis-plus:
   type-aliases-package: com.atguigu.gmall.wms.entity
   mapper-locations: classpath:mapper/wms/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto

@@ -1,7 +1,9 @@
 package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,17 @@ public class CategoryController {
         return ResponseVo.ok(pageResultVo);
     }
 
+    @GetMapping("parent/{id}")
+    @ApiOperation("查询三级分类")
+    public ResponseVo<List<CategoryEntity>> queryCategoryListByPid(@PathVariable("id") Long id){
+        QueryWrapper<CategoryEntity> queryWrapper=new QueryWrapper();
+        if(id!=-1){
+            queryWrapper.eq("parent_id",id);
+        }
+        List list=categoryService.list(queryWrapper);
+        return ResponseVo.ok(list);
+
+    }
 
     /**
      * 信息

@@ -2,6 +2,7 @@ package com.atguigu.gmall.sms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.sms.dto.SkuSaleDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,14 @@ public class SkuBoundsController {
 
     @Autowired
     private SkuBoundsService skuBoundsService;
+
+
+    @PostMapping("save")
+    public ResponseVo saveSales(@RequestBody SkuSaleDto skuSaleDto){
+        skuBoundsService.saveSales(skuSaleDto);
+        return ResponseVo.ok();
+    }
+
 
     /**
      * 列表

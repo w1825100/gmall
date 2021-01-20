@@ -7,9 +7,11 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 品牌
- * 
+ *
  * @author lgd
  * @email lgd@atguigu.com
  * @date 2021-01-18 18:14:15
@@ -43,6 +45,7 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 排序
 	 */
+	@NotNull(message = "排序字段不能为空")
 	private Integer sort;
 	/**
 	 * 备注
