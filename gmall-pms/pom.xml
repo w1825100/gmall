@@ -16,6 +16,16 @@
 
 
     <dependencies>
+<!--        seata-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-seata</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-all</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 <!--        远程调用-->
         <dependency>
             <groupId>com.atguigu</groupId>

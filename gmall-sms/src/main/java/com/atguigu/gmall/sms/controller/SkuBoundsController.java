@@ -39,6 +39,7 @@ public class SkuBoundsController {
     @PostMapping("save")
     public ResponseVo saveSales(@RequestBody SkuSaleDto skuSaleDto){
         skuBoundsService.saveSales(skuSaleDto);
+
         return ResponseVo.ok();
     }
 

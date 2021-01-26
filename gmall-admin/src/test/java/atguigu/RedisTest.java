@@ -1,6 +1,7 @@
 package atguigu;
 
 import com.atguigu.common.utils.RedisUtils;
+import com.atguigu.modules.app.service.UserService;
 import com.atguigu.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.junit.Test;
@@ -15,6 +16,7 @@ public class RedisTest {
 	@Autowired
 	private RedisUtils redisUtils;
 
+
 	@Test
 	public void contextLoads() {
 		SysUserEntity user = new SysUserEntity();
@@ -23,5 +25,7 @@ public class RedisTest {
 
 		System.out.println(ToStringBuilder.reflectionToString(redisUtils.get("user", SysUserEntity.class)));
 	}
+
+
 
 }

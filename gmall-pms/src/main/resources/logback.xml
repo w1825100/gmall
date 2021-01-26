@@ -5,10 +5,12 @@
 
     <!--    控制台日志格式-->
     <property name="my_log"
-              value="%date{HH时:mm分ss秒}|级别:%highlight(%-5level)|线程:%boldYellow(%thread)|类名:%boldGreen(%logger):%n %highlight(消息):%boldRed(%msg) %n"/>
+              value="%date{HH时:mm分ss秒}|级别:%highlight(%-5level)|线程:%boldYellow(%thread)|类名:%boldGreen(%logger):%n %highlight(消息):%boldRed(%msg) %n %n
+    "/>
+
    <!--文件日志格式-->
     <property name="FILE_LOG_PATTERN"
-             value="%date{yyyy年MM月dd HH日mm分ss秒} |级别:%-5level |线程:%thread |代码定位:%file:%line |类名:%logger |消息:%msg%n"/>
+             value="%date{yyyy年MM月dd HH日mm分ss秒} |级别:%-5level |线程:%thread |代码定位:%file:%line |类名:%logger |消息:%msg %n %n"/>
     <!--编码-->
     <property name="ENCODING"
               value="UTF-8" />
@@ -120,7 +122,7 @@
     <!--开发环境-->
     <springProfile name="dev">
         <!--可以灵活设置此处，从而控制日志的输出-->
-        <root level="info">
+        <root level="warn">
             <appender-ref ref="STDOUT" />
             <appender-ref ref="DEBUG_FILE" />
             <appender-ref ref="INFO_FILE" />

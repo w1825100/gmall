@@ -17,11 +17,14 @@ import com.atguigu.gmall.common.bean.PageParamVo;
 import com.atguigu.gmall.sms.mapper.SkuBoundsMapper;
 import com.atguigu.gmall.sms.entity.SkuBoundsEntity;
 import com.atguigu.gmall.sms.service.SkuBoundsService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
-
+@SuppressWarnings("all")
 @Service("skuBoundsService")
 public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsMapper, SkuBoundsEntity> implements SkuBoundsService {
 
@@ -42,6 +45,7 @@ public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsMapper, SkuBounds
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveSales(SkuSaleDto skuSaleDto) {
         //1保存sku_bounds表
         SkuBoundsEntity skuBoundsEntity=new SkuBoundsEntity();
@@ -49,7 +53,7 @@ public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsMapper, SkuBounds
         List<Integer> work = skuSaleDto.getWork();
         if(!CollectionUtils.isEmpty(work)){
             int sum=0;
-            for (int i = 3; i >=0 ; i--) {
+            for (int i = work.size()-1; i >=0 ; i--) {
                 Double pow = Math.pow(2, i);
                 int j = pow.intValue();
                sum+=work.get(i)*j;

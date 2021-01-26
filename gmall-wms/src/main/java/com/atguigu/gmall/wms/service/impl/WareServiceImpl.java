@@ -20,7 +20,7 @@ public class WareServiceImpl extends ServiceImpl<WareMapper, WareEntity> impleme
     public PageResultVo queryPage(PageParamVo paramVo) {
         IPage<WareEntity> page = this.page(
                 paramVo.getPage(),
-                new QueryWrapper<WareEntity>()
+                new QueryWrapper<WareEntity>().like("name",paramVo.getKey())
         );
 
         return new PageResultVo(page);

@@ -30,4 +30,6 @@ public class SpuDescEntity implements Serializable {
 	 */
 	private String decript;
 
+
+
 }

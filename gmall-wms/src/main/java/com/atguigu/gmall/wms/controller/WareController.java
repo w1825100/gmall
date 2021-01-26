@@ -60,7 +60,7 @@ public class WareController {
     /**
      * 保存
      */
-    @PostMapping
+    @PostMapping("/save")
     @ApiOperation("保存")
     public ResponseVo<Object> save(@RequestBody WareEntity ware){
 		wareService.save(ware);
