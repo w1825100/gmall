@@ -33,3 +33,6 @@ feign:
 mybatis-plus:
   mapper-locations: classpath:mapper/ums/**/*.xml
   type-aliases-package: com.atguigu.gmall.ums.entity
+logging:
+  level:
+    com.atguigu.gmall.ums.mapper: debug

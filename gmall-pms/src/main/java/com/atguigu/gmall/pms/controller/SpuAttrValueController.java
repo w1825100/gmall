@@ -2,6 +2,8 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.pms.entity.SkuAttrValueEntity;
+import com.atguigu.gmall.pms.entity.SpuAttrValueEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atguigu.gmall.pms.entity.SpuAttrValueEntity;
+
 import com.atguigu.gmall.pms.service.SpuAttrValueService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
@@ -33,6 +35,28 @@ public class SpuAttrValueController {
 
     @Autowired
     private SpuAttrValueService spuAttrValueService;
+
+
+    @GetMapping("search/{cid}/{sid}")
+    @ApiOperation("根据skuId和分类id查询spu属性")
+    public ResponseVo<List<SpuAttrValueEntity>> querySpuAttrValueByCategoryIdAndSkuId(
+            @PathVariable("cid") Long cid
+            ,@PathVariable("sid") Long sid){
+
+        List<SpuAttrValueEntity> spuAttrValueEntities= spuAttrValueService.querySpuAttrValueByCategoryIdAndSkuId(cid,sid);
+
+        return ResponseVo.ok(spuAttrValueEntities);
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 列表

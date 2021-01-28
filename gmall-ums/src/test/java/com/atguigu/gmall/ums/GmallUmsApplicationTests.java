@@ -8,6 +8,7 @@ class GmallUmsApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("hehe");
     }
 
 }

@@ -122,7 +122,7 @@
     <!--开发环境-->
     <springProfile name="dev">
         <!--可以灵活设置此处，从而控制日志的输出-->
-        <root level="warn">
+        <root level="info">
             <appender-ref ref="STDOUT" />
             <appender-ref ref="DEBUG_FILE" />
             <appender-ref ref="INFO_FILE" />

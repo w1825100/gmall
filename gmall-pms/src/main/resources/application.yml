@@ -48,3 +48,5 @@ mybatis-plus:
 logging:
   level:
    com.atguigu.gmall.pms.mapper: debug
+   com.atguigu.gmall.pms.feign: debug
+   com.alibaba.nacos.client.naming.updater: warn

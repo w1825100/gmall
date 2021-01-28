@@ -1,18 +1,19 @@
 package com.atguigu.gmall.pms;
 
-import com.atguigu.gmall.pms.entity.SkuEntity;
+
 import com.atguigu.gmall.pms.entity.SpuDescEntity;
 import com.atguigu.gmall.pms.mapper.SpuDescMapper;
-import com.atguigu.gmall.pms.service.SkuService;
 import com.atguigu.gmall.pms.service.SpuDescService;
-import com.zaxxer.hikari.pool.HikariPool;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
+
+import javax.sql.DataSource;
+
+
 @SpringBootTest
 public class GmallPmsApplicationTests {
 
@@ -20,11 +21,22 @@ public class GmallPmsApplicationTests {
     SpuDescService spuDescService;
    @Autowired
     SpuDescMapper spuDescMapper;
+    @Autowired
+    DataSource dataSource;
     @Test
-    public void contextLoads() {
+     void contextLoads0() {
 
         SpuDescEntity search = spuDescMapper.search(27L);
+        System.out.println(dataSource.getClass());
         System.out.println(search);
     }
+    @Test
+     void contextLoads1() {
+
+        SpuDescEntity search = spuDescMapper.search(27L);
+        System.out.println(dataSource.getClass());
+        System.out.println(search);
+    }
+
 
 }

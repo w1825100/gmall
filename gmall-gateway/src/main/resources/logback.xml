@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!--  保存路径变量-->
-    <property name="log.path" value="D:/log/sms" />
+    <property name="log.path" value="D:/log/gateway" />
 
     <!--    控制台日志格式-->
     <property name="my_log"

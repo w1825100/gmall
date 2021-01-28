@@ -8,3 +8,5 @@ spring:
       config:
         server-addr: localhost:8848
         group: sms
+  profiles:
+    active: dev

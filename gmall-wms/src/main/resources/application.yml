@@ -1,6 +1,9 @@
 server:
   port: 18085
 spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yy-MM-dd HH:mm:ss
   cloud:
     nacos:
       discovery:
@@ -36,3 +39,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+logging:
+  level:
+    com.atguigu.gmall.wms.mapper: debug
