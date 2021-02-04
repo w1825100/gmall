@@ -36,6 +36,14 @@ spring:
   redis:
     host: 111.1.1.11
     port: 6379
+  rabbitmq:
+    host: 111.1.1.11
+    port: 5672
+    virtual-host: FAST_B15A
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
 feign:
   sentinel:
     enabled: true

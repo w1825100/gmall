@@ -24,6 +24,9 @@ public interface GmallPmsApi {
     @ApiOperation("分页查询")
     ResponseVo<List<SpuEntity>> querySpuEntities(@RequestBody PageParamVo paramVo);
 
+    @GetMapping("pms/spu/{id}")
+    @ApiOperation("详情查询")
+     ResponseVo<SpuEntity> querySpuById(@PathVariable("id") Long id);
 
     @GetMapping("pms/sku/spu/{sId}")
     @ApiOperation("根据spuId查询sku")
@@ -34,7 +37,7 @@ public interface GmallPmsApi {
     ResponseVo<BrandEntity> queryBrandById(@PathVariable("id") Long id);
 
     @GetMapping("pms/category/{id}")
-    @ApiOperation("详情查询")
+    @ApiOperation("根据分类id查询分类")
      ResponseVo<CategoryEntity> queryCategoryById(@PathVariable("id") Long id);
 
 
@@ -46,10 +49,15 @@ public interface GmallPmsApi {
 
 
     @GetMapping("pms/spuattrvalue/search/{cid}/{sid}")
-    @ApiOperation("根据skuId和分类id查询spu属性")
+    @ApiOperation("根据spuId和分类id查询spu属性")
     ResponseVo<List<SpuAttrValueEntity>> querySpuAttrValueByCategoryIdAndSkuId(
             @PathVariable("cid") Long cid
             ,@PathVariable("sid") Long sid);
 
+    @GetMapping("pms/category/parent/{id}")
+    @ApiOperation("根据父分类id查询子分类")
+     ResponseVo<List<CategoryEntity>> queryCategoryListByPid(@PathVariable("id") Long id);
 
+    @GetMapping("pms/category/lv2/subs/{pid}")
+    ResponseVo<List<CategoryEntity>> getSubsCategories(@PathVariable Long pid);
 }

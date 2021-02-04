@@ -16,6 +16,8 @@
 
 package com.atguigu.generator.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ import java.util.Map;
  * @author Mark sunlightcs@gmail.com
  * @since 2018-07-24
  */
+
 public interface GeneratorDao {
     List<Map<String, Object>> queryList(Map<String, Object> map);
 

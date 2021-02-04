@@ -35,7 +35,6 @@ spring:
 mybatis:
   mapperLocations: classpath:mapper/**/*.xml
 
-
 pagehelper:
   reasonable: true
   supportMethodsArguments: true
@@ -45,4 +44,6 @@ pagehelper:
 #指定数据库，可选值有【mysql、oracle、sqlserver、postgresql】
 guli:
   database: mysql
-
+logging:
+  level:
+   com.atguigu.generator.dao: debug

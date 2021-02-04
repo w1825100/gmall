@@ -25,7 +25,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成器
- * 
+ *
  * @author Mark sunlightcs@gmail.com
  */
 @Service
@@ -35,8 +35,9 @@ public class SysGeneratorService {
 
 	public PageUtils queryList(Query query) {
 		Page<?> page = PageHelper.startPage(query.getPage(), query.getLimit());
-		List<Map<String, Object>> list = generatorDao.queryList(query);
 
+		//查询指定库下所有表集合,返回page对象
+		List<Map<String, Object>> list = generatorDao.queryList(query);
 		return new PageUtils(list, (int)page.getTotal(), query.getLimit(), query.getPage());
 	}
 

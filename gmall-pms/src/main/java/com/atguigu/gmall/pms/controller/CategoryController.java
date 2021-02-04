@@ -36,6 +36,15 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
+
+    @GetMapping("lv2/subs/{pid}")
+    public ResponseVo<List<CategoryEntity>> getSubsCategories(@PathVariable Long pid){
+        List<CategoryEntity> categoryEntities=categoryService.getlv2WithSubsCategories(pid);
+        return ResponseVo.ok(categoryEntities);
+    }
+
+
     /**
      * 列表
      */
@@ -48,7 +57,7 @@ public class CategoryController {
     }
 
     @GetMapping("parent/{id}")
-    @ApiOperation("查询三级分类")
+    @ApiOperation("查询父分类下子分类")
     public ResponseVo<List<CategoryEntity>> queryCategoryListByPid(@PathVariable("id") Long id){
         QueryWrapper<CategoryEntity> queryWrapper=new QueryWrapper();
         if(id!=-1){
