@@ -48,24 +48,20 @@ public class EsTest {
         restTemplate.createIndex(Goods.class);
 //        建表/生成约束
         restTemplate.putMapping(Goods.class);
-        //1.分页查询spu 获得spu集合
-        //2.遍历spu集合,查询每个spu下的所有sku集合
-        //3.查询sku品牌信息
-        //4.查询sku分类信息
-        //5.根据sku分类id查询attr
-        //6.根据attr信息获得检索类型attrId
-        //7.根据attr_type分开查询基本属性和销售属性表
-        //8.包装Goods对象,入库
+
+
         Integer pageNum = 1;
         Integer pageSize = 30;
 
         do {
             PageParamVo pageParamVo = new PageParamVo(pageNum, pageSize, null);
+            //1.分页查询spu 获得spu集合
             ResponseVo<List<SpuEntity>> listResponseVo = pmsClient.querySpuEntities(pageParamVo);
             List<SpuEntity> spuEntities = listResponseVo.getData();
             if (CollectionUtils.isEmpty(spuEntities)) {
                 break;
             }
+            //2.遍历spu集合,查询每个spu下的所有sku集合
             spuEntities.forEach(spuEntity -> {
                 ResponseVo<List<SkuEntity>> skuResponseVo = pmsClient.querySkusBySpuId(spuEntity.getId());
                 List<SkuEntity> skuEntities = skuResponseVo.getData();
@@ -92,7 +88,7 @@ public class EsTest {
                                     ));
 
                                 }
-                                //品牌信息
+                                //3.查询sku品牌信息
                                 ResponseVo<BrandEntity> brandEntityResponseVo = pmsClient.queryBrandById(sku.getBrandId());
                                 BrandEntity brandEntity = brandEntityResponseVo.getData();
                                 if (brandEntity != null) {
@@ -100,7 +96,7 @@ public class EsTest {
                                     goods.setBrandName(brandEntity.getName());
                                     goods.setLogo(brandEntity.getLogo());
                                 }
-                                //分类信息
+                                //4.查询sku分类信息
                                 ResponseVo<CategoryEntity> categoryEntityResponseVo = pmsClient.queryCategoryById(sku.getCategoryId());
                                 CategoryEntity categoryEntity = categoryEntityResponseVo.getData();
                                 if (categoryEntity != null) {
@@ -109,12 +105,14 @@ public class EsTest {
                                 }
 
 
-                                //检索类型的规格参数
+                                //5.根据sku分类id查询检索类型attr
                                 List<SearchAttrValue> searchAttrValues = new ArrayList<SearchAttrValue>();
                                 ResponseVo<List<SkuAttrValueEntity>> SkuAttrValueEntityVo = pmsClient.querySkuAttrValueByCategoryIdAndSkuId(sku.getCategoryId(), sku.getId());
                                 List<SkuAttrValueEntity> SkuAttrValueEntities = SkuAttrValueEntityVo.getData();
                                 ResponseVo<List<SpuAttrValueEntity>> SpuAttrValueEntityVo = pmsClient.querySpuAttrValueByCategoryIdAndSkuId(sku.getCategoryId(), sku.getSpuId());
                                 List<SpuAttrValueEntity> SpuAttrValueEntities = SpuAttrValueEntityVo.getData();
+                                //6.根据attr信息获得检索类型attrId
+                                //7.根据attr_type分开查询基本属性和销售属性表
                                 if (!CollectionUtils.isEmpty(SkuAttrValueEntities)) {
                                     List<SearchAttrValue> collects = SkuAttrValueEntities.stream().map(a -> {
                                         SearchAttrValue searchAttrValue = new SearchAttrValue();
@@ -136,7 +134,7 @@ public class EsTest {
                                 return goods;
                             }
                     ).collect(Collectors.toList());
-
+                    //8.包装Goods对象,入库
                     //finally,将转换完成的goods集合,装进es中
                     goodsRespository.saveAll(goodsList);
                 }

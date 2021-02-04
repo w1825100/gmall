@@ -20,8 +20,6 @@ import java.util.List;
 public class Goods {
 
     //sku专属字段
-
-    // 搜索列表字段
     @Id
     private Long skuId;
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
