@@ -2,11 +2,19 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +43,32 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    RedissonClient redissonClient;
 
+    private static final String KEY_PREFIX="pms:cates:";
 
 
     @GetMapping("lv2/subs/{pid}")
     public ResponseVo<List<CategoryEntity>> getSubsCategories(@PathVariable Long pid){
+        String json = stringRedisTemplate.opsForValue().get(KEY_PREFIX + pid);
+        //防止缓存击穿,添加分布式锁
+        RLock lock = redissonClient.getLock("pms:lock:" + pid);
+        lock.lock();
+        if(StringUtils.isNotBlank(json)){
+            return ResponseVo.ok(JSON.parseArray(json,CategoryEntity.class));
+        }
         List<CategoryEntity> categoryEntities=categoryService.getlv2WithSubsCategories(pid);
+        if(CollectionUtils.isEmpty(categoryEntities)){
+            //防止缓存穿透
+            stringRedisTemplate.opsForValue().set(KEY_PREFIX+pid,JSON.toJSONString(categoryEntities),300, TimeUnit.SECONDS);
+        }else{
+            //防止缓存雪崩
+        stringRedisTemplate.opsForValue().set(KEY_PREFIX+pid,JSON.toJSONString(categoryEntities),300+new Random().nextInt(10), TimeUnit.SECONDS);
+        }
+        lock.unlock();
         return ResponseVo.ok(categoryEntities);
     }
 

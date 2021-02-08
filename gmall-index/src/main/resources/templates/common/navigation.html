@@ -15,7 +15,7 @@
                 <!-- html模板 -->
                 <div class="sort" id="app">
                     <div class="all-sort-list2">
-                        <div v-for="category,stat in categories" :class="stat.index == 0 ? 'item bo' : 'item'" >
+                        <div v-for="category,stat in categories" :class="stat.index == 0 ? 'item bo' : 'item'">
                             <h3 @mouseover="loadSubCategories(category)"><a href="">{{category.name}}</a></h3>
                             <div class="item-list clearfix">
                                 <div class="subitem" v-for="subCat in category.subs">
@@ -48,31 +48,22 @@
     </div>
     <script th:inline="javascript">
         // vue实例
-        let app = new Vue({
+        new Vue({
             el: "#app",
             data: {
                 categories: [[${categories}]]
             },
-            // mounted(){},
-            // created(){
-            //     cates = this.categories;
-            //     cates.forEach(category => {
-            //         axios.get("http://api.gmall.com/index/cates/" + category.id).then(({data}) => {
-            //             category.subCates = data.data;
-            //         })
-            //     })
-            //     this.categories = cates;
-            // },
             methods: {
-                loadSubCategories(category){
-                    console.log("你触发了鼠标移动事件")
-                    axios.get("http://api.gmall.com/index/cates/" + category.id).then(({data}) => {
-                        category.subs = data.data;
-                        console.log(data.data)
-                    })
+                loadSubCategories(category) {
+                    if (category.subs == null) {
+                        console.log("你触发了鼠标移动事件" + category.subs);
+                        axios.get("http://api.gmall.com/index/cates/" + category.id).then(({data}) => {
+                            category.subs = data.data;
+                        })
+                    }
                 }
             }
-        })
+        });
     </script>
 </div>
 

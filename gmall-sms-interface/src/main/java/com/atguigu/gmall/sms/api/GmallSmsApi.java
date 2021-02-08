@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @program: gmall
  * @description: 营销管理远程接口
- * @author: 刘广典
+ * @author: lgd
  * @create: 2021-01-20 19:43
  **/
 

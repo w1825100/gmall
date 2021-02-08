@@ -10,7 +10,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 /**
  * @program: gmall
  * @description: 解决跨域问题
- * @author: 刘广典
+ * @author: lgd
  * @create: 2021-01-19 10:24
  **/
 @Configuration
