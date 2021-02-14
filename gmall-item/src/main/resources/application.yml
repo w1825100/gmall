@@ -4,6 +4,9 @@ server:
   port: 18088
 #cloud
 spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
   cloud:
     nacos:
       discovery:

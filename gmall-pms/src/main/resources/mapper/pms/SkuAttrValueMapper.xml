@@ -6,6 +6,6 @@
         select b.sku_id,GROUP_CONCAT(b.attr_value) as attr_values from pms_sku  a
         inner join pms_sku_attr_value b
         on a.id=b.`sku_id`
-        where a.`spu_id`=7 group by b.sku_id;
+        where a.`spu_id`=#{id} group by b.sku_id;
     </select>
 </mapper>

@@ -23,6 +23,7 @@ public class CorsConfig {
         config.addAllowedOrigin("http://manager.gmall.com");
         config.addAllowedOrigin("http://api.gmall.com");
         config.addAllowedOrigin("http://gmall.com");
+        config.addAllowedOrigin("http://item.gmall.com");
 //        允许的方法
         config.addAllowedMethod("*");
 //        允许携带自定义请求头

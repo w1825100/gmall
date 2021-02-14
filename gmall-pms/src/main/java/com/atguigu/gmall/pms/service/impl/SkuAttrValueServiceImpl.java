@@ -97,7 +97,7 @@ public class SkuAttrValueServiceImpl extends ServiceImpl<SkuAttrValueMapper, Sku
             return null;
         }
 
-        Map<String, Long> attrValuesMappingSkuIdMap = maps.stream().collect(Collectors.toMap(map -> (String)map.get("attr_values"), map -> (Long)map.get("attr_id")));
+        Map<String, Long> attrValuesMappingSkuIdMap = maps.stream().collect(Collectors.toMap(map -> (String)map.get("attr_values"), map -> (Long)map.get("sku_id")));
 
         return JSON.toJSONString(attrValuesMappingSkuIdMap);
     }

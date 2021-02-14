@@ -83,7 +83,7 @@ public interface GmallPmsApi {
     @ApiOperation("查询spu下sku与销售属性映射关系")
     ResponseVo<String> querySaleAttrValuesMappingSkuIdBySpuId(@PathVariable Long id);
 
-    @GetMapping("{pms/spudesc/spuId}")
+    @GetMapping("pms/spudesc/{spuId}")
     @ApiOperation("详情查询")
      ResponseVo<SpuDescEntity> querySpuDescById(@PathVariable("spuId") Long spuId);
 

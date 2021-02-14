@@ -51,7 +51,7 @@ public class ItemVo {
     private List<SaleAttrValueVo> saleAttrs;
 
     //当前sku销售属性
-    private Map<String,String> saleAttr;
+    private Map<Long,String> saleAttr;
 
     //销售属性和skuId映射关系
     private String skusJson;
