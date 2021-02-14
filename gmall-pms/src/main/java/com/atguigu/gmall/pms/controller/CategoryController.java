@@ -43,32 +43,35 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    RedissonClient redissonClient;
-
-    private static final String KEY_PREFIX="pms:cates:";
 
 
+    @ApiOperation("根据三级级分类id查询一二三级分类集合")
+    @GetMapping("all/{id}")
+    public  ResponseVo<List<CategoryEntity>> queryLevel123CategoriesByCid3(@PathVariable Long id){
+        List<CategoryEntity> categoryEntities =categoryService.queryLevel123CategoriesByCid3(id);
+        return ResponseVo.ok(categoryEntities);
+    }
+
+    @ApiOperation("根据一级分类id查询二三级分类集合")
     @GetMapping("lv2/subs/{pid}")
-    public ResponseVo<List<CategoryEntity>> getSubsCategories(@PathVariable Long pid){
-        String json = stringRedisTemplate.opsForValue().get(KEY_PREFIX + pid);
-        //防止缓存击穿,添加分布式锁
-        RLock lock = redissonClient.getLock("pms:lock:" + pid);
-        lock.lock();
-        if(StringUtils.isNotBlank(json)){
-            return ResponseVo.ok(JSON.parseArray(json,CategoryEntity.class));
-        }
-        List<CategoryEntity> categoryEntities=categoryService.getlv2WithSubsCategories(pid);
-        if(CollectionUtils.isEmpty(categoryEntities)){
-            //防止缓存穿透
-            stringRedisTemplate.opsForValue().set(KEY_PREFIX+pid,JSON.toJSONString(categoryEntities),300, TimeUnit.SECONDS);
-        }else{
-            //防止缓存雪崩
-        stringRedisTemplate.opsForValue().set(KEY_PREFIX+pid,JSON.toJSONString(categoryEntities),300+new Random().nextInt(10), TimeUnit.SECONDS);
-        }
-        lock.unlock();
+    public ResponseVo<List<CategoryEntity>> getSubsCategories(@PathVariable Long pid) {
+        List<CategoryEntity> categoryEntities = categoryService.getSubsCategories(pid);
+//        String json = stringRedisTemplate.opsForValue().get(KEY_PREFIX + pid);
+//        //防止缓存击穿,添加分布式锁
+//        RLock lock = redissonClient.getLock("pms:lock:" + pid);
+//        lock.lock();
+//        if(StringUtils.isNotBlank(json)){
+//            return ResponseVo.ok(JSON.parseArray(json,CategoryEntity.class));
+//        }
+//        List<CategoryEntity> categoryEntities=categoryService.getlv2WithSubsCategories(pid);
+//        if(CollectionUtils.isEmpty(categoryEntities)){
+//            //防止缓存穿透
+//            stringRedisTemplate.opsForValue().set(KEY_PREFIX+pid,JSON.toJSONString(categoryEntities),300, TimeUnit.SECONDS);
+//        }else{
+//            //防止缓存雪崩
+//        stringRedisTemplate.opsForValue().set(KEY_PREFIX+pid,JSON.toJSONString(categoryEntities),300+new Random().nextInt(10), TimeUnit.SECONDS);
+//        }
+//        lock.unlock();
         return ResponseVo.ok(categoryEntities);
     }
 
@@ -78,7 +81,7 @@ public class CategoryController {
      */
     @GetMapping
     @ApiOperation("分页查询")
-    public ResponseVo<PageResultVo> queryCategoryByPage(PageParamVo paramVo){
+    public ResponseVo<PageResultVo> queryCategoryByPage(PageParamVo paramVo) {
         PageResultVo pageResultVo = categoryService.queryPage(paramVo);
 
         return ResponseVo.ok(pageResultVo);
@@ -86,14 +89,9 @@ public class CategoryController {
 
     @GetMapping("parent/{id}")
     @ApiOperation("查询父分类下子分类")
-    public ResponseVo<List<CategoryEntity>> queryCategoryListByPid(@PathVariable("id") Long id){
-        QueryWrapper<CategoryEntity> queryWrapper=new QueryWrapper();
-        if(id!=-1){
-            queryWrapper.eq("parent_id",id);
-        }
-        List list=categoryService.list(queryWrapper);
+    public ResponseVo<List<CategoryEntity>> queryCategoryListByPid(@PathVariable("id") Long id) {
+        List<CategoryEntity> list = categoryService.queryCategoryListByPid(id);
         return ResponseVo.ok(list);
-
     }
 
     /**
@@ -101,8 +99,8 @@ public class CategoryController {
      */
     @GetMapping("{id}")
     @ApiOperation("详情查询")
-    public ResponseVo<CategoryEntity> queryCategoryById(@PathVariable("id") Long id){
-		CategoryEntity category = categoryService.getById(id);
+    public ResponseVo<CategoryEntity> queryCategoryById(@PathVariable("id") Long id) {
+        CategoryEntity category = categoryService.getById(id);
 
         return ResponseVo.ok(category);
     }
@@ -112,8 +110,8 @@ public class CategoryController {
      */
     @PostMapping
     @ApiOperation("保存")
-    public ResponseVo<Object> save(@RequestBody CategoryEntity category){
-		categoryService.save(category);
+    public ResponseVo<Object> save(@RequestBody CategoryEntity category) {
+        categoryService.save(category);
 
         return ResponseVo.ok();
     }
@@ -123,8 +121,8 @@ public class CategoryController {
      */
     @PostMapping("/update")
     @ApiOperation("修改")
-    public ResponseVo update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+    public ResponseVo update(@RequestBody CategoryEntity category) {
+        categoryService.updateById(category);
 
         return ResponseVo.ok();
     }
@@ -134,8 +132,8 @@ public class CategoryController {
      */
     @PostMapping("/delete")
     @ApiOperation("删除")
-    public ResponseVo delete(@RequestBody List<Long> ids){
-		categoryService.removeByIds(ids);
+    public ResponseVo delete(@RequestBody List<Long> ids) {
+        categoryService.removeByIds(ids);
 
         return ResponseVo.ok();
     }

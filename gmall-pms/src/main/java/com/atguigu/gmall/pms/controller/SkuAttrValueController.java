@@ -2,8 +2,11 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.pms.entity.SaleAttrValueVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,9 +37,26 @@ public class SkuAttrValueController {
     @Autowired
     private SkuAttrValueService skuAttrValueService;
 
+    @GetMapping("mapping/spu/{id}")
+    @ApiOperation("查询spu下sku与销售属性映射关系")
+    public ResponseVo<String> querySaleAttrValuesMappingSkuIdBySpuId(@PathVariable Long id){
+        String json=skuAttrValueService.querySaleAttrValuesMappingSkuIdBySpuId(id);
+        return ResponseVo.ok(json);
+    }
 
+    @GetMapping("sku/{id}")
+    @ApiOperation("根据skuId查询sku销售属性")
+    public ResponseVo<List<SkuAttrValueEntity>> querySaleAttrValueBySkuId(@PathVariable Long id){
+       List<SkuAttrValueEntity> skuAttrValueEntities= skuAttrValueService.list(new QueryWrapper<SkuAttrValueEntity>().eq("sku_id",id));
+        return ResponseVo.ok(skuAttrValueEntities);
+    }
 
-
+@GetMapping("spu/{id}")
+@ApiOperation("根据spuId查询所属sku销售属性")
+public ResponseVo<List<SaleAttrValueVo>> querySkuSaleAttrValuesBySpuId(@PathVariable Long id){
+   List<SaleAttrValueVo>  list=skuAttrValueService.querySkuSaleAttrValuesBySpuId(id);
+   return ResponseVo.ok(list);
+}
 
 
     @GetMapping("search/{cid}/{sid}")

@@ -19,4 +19,5 @@ public interface GmallWmsApi {
     @GetMapping("wms/waresku/sku/{id}")
      ResponseVo<List<WareSkuEntity>> queryWareSkuBySkuId(@PathVariable Long id);
 
+
 }

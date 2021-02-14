@@ -2,13 +2,11 @@ package com.atguigu.gmall.pms.service.impl;
 
 import com.atguigu.gmall.pms.entity.*;
 import com.atguigu.gmall.pms.feign.GmallSmsClient;
-import com.atguigu.gmall.pms.mapper.SkuMapper;
-import com.atguigu.gmall.pms.mapper.SpuDescMapper;
 import com.atguigu.gmall.pms.service.*;
 import com.atguigu.gmall.pms.vo.BaseAttrs;
 import com.atguigu.gmall.pms.vo.Skus;
 import com.atguigu.gmall.pms.vo.SpuVo;
-import com.atguigu.gmall.sms.dto.SkuSaleDto;
+import com.atguigu.gmall.sms.vo.SkuSaleDto;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -27,7 +25,6 @@ import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
 
 import com.atguigu.gmall.pms.mapper.SpuMapper;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 @SuppressWarnings("all")

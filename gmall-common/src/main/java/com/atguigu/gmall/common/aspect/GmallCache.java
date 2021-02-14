@@ -1,4 +1,4 @@
-package com.atguigu.gmall.pms.config;
+package com.atguigu.gmall.common.aspect;
 
 
 import java.lang.annotation.*;

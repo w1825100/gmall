@@ -54,14 +54,4 @@ public class BrandEntity implements Serializable {
 	private String remark;
 
 
-	public static void main(String[] args) {
-		Proxy.newProxyInstance(BrandEntity.class.getClassLoader(), BrandEntity.class.getInterfaces(), new InvocationHandler() {
-			@Override
-			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-				return null;
-			}
-		});
-
-	}
 }

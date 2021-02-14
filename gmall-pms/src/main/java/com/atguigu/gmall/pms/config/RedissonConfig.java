@@ -1,10 +1,18 @@
 package com.atguigu.gmall.pms.config;
 
+import com.atguigu.gmall.common.bean.ResponseVo;
+import com.atguigu.gmall.pms.entity.CategoryEntity;
+import com.atguigu.gmall.pms.mapper.CategoryMapper;
 import org.redisson.Redisson;
+import org.redisson.api.RBloomFilter;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @program: gmall
@@ -13,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
  * @create: 2021-02-07 00:40
  **/
 @Configuration
-public class RedisConfig {
+public class RedissonConfig {
 
     @Bean
     public RedissonClient redissonClient(){

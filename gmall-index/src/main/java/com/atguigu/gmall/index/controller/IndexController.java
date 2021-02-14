@@ -1,12 +1,9 @@
 package com.atguigu.gmall.index.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.atguigu.gmall.common.aspect.GmallCache;
 import com.atguigu.gmall.common.bean.ResponseVo;
-import com.atguigu.gmall.index.config.GmallCache;
 import com.atguigu.gmall.index.service.IndexService;
 import com.atguigu.gmall.pms.entity.CategoryEntity;
-import com.baomidou.mybatisplus.extension.api.R;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -34,7 +31,7 @@ public class IndexController {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
-    private static final String KEY_PREFIX = "index:cates:";
+
 
     /**
     *   @desc  查询一级分类
@@ -52,12 +49,12 @@ public class IndexController {
     *   @auth 刘广典
     *   @Date 2021/2/6 21:34
     **/
-    @GmallCache(prefix = KEY_PREFIX,timeout = 43200,random = 7200,lock="index:cates:lock:")
+
     @ResponseBody
     @GetMapping("index/cates/{pid}")
     public ResponseVo<List<CategoryEntity>> getLv2SubCategories(@PathVariable Long pid) {
-        ResponseVo<List<CategoryEntity>> res = indexService.getSubCategories(pid);
-        return res;
+       List<CategoryEntity> res = indexService.getSubCategories(pid);
+       return ResponseVo.ok(res);
     }
 
     /**

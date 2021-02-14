@@ -2,7 +2,8 @@ package com.atguigu.gmall.sms.controller;
 
 import java.util.List;
 
-import com.atguigu.gmall.sms.dto.SkuSaleDto;
+import com.atguigu.gmall.sms.vo.ItemSaleVo;
+import com.atguigu.gmall.sms.vo.SkuSaleDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atguigu.gmall.sms.entity.SkuBoundsEntity;
@@ -35,6 +35,12 @@ public class SkuBoundsController {
     @Autowired
     private SkuBoundsService skuBoundsService;
 
+    @GetMapping("sku/{id}")
+    @ApiOperation("根据skuId查询营销信息")
+    public ResponseVo<List<ItemSaleVo>> querySalesBySkuId(@PathVariable Long id){
+        List<ItemSaleVo> itemSaleVos= skuBoundsService.querySalesBySkuId(id);
+        return ResponseVo.ok(itemSaleVos);
+    }
 
     @PostMapping("save")
     public ResponseVo saveSales(@RequestBody SkuSaleDto skuSaleDto){
@@ -42,7 +48,6 @@ public class SkuBoundsController {
 
         return ResponseVo.ok();
     }
-
 
     /**
      * 列表

@@ -35,4 +35,5 @@ public class DataSourceConfig {
         dataSource.setPoolName("光之神");
         return new DataSourceProxy(dataSource);
     }
+
 }

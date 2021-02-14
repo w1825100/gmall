@@ -1,6 +1,7 @@
 package com.atguigu.gmall.index.service;
 
 import com.alibaba.fastjson.JSON;
+import com.atguigu.gmall.common.aspect.GmallCache;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.index.feign.GmallPmsClient;
 import com.atguigu.gmall.pms.api.GmallPmsApi;
@@ -32,15 +33,16 @@ public class IndexService {
     @Autowired
     RedissonClient redissonClient;
 
-    private static final String KEY_PREFIX = "index:cates:";
+    private static final String KEY_PREFIX = "gmall:index:cates:";
 
     public List<CategoryEntity> queryLV1Categories() {
         ResponseVo<List<CategoryEntity>> categoryEntityResponseVo = gmallPmsClient.queryCategoryListByPid(0l);
         return categoryEntityResponseVo.getData();
     }
-
-    public ResponseVo<List<CategoryEntity>> getSubCategories(Long pid) {
-        return  gmallPmsClient.getSubsCategories(pid);
+    //使用aop注解缓存
+    @GmallCache(prefix = KEY_PREFIX,timeout = 300,random = 300,lock="gmall:index:cates:lock:")
+    public List<CategoryEntity> getSubCategories(Long pid) {
+        return  gmallPmsClient.getSubsCategories(pid).getData();
     }
 
     public ResponseVo<List<CategoryEntity>> getSubCategories2(Long pid) {
@@ -71,7 +73,5 @@ public class IndexService {
         lock.unlock();
         return categoryEntityResponseVo;
     }
-
-
 
 }
