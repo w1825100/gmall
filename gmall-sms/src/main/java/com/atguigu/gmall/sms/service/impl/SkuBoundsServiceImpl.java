@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,13 +88,13 @@ public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsMapper, SkuBounds
         if(skuBoundsEntity!=null){
             ItemSaleVo itemSaleVo = new ItemSaleVo();
             itemSaleVo.setType("积分");
-            itemSaleVo.setDesc("送"+skuBoundsEntity.getGrowBounds()+"成长积分,送"+skuBoundsEntity.getBuyBounds()+"购物积分!");
+            itemSaleVo.setDesc("送"+skuBoundsEntity.getGrowBounds().setScale(2, RoundingMode.HALF_UP)+"成长积分,送"+skuBoundsEntity.getBuyBounds().setScale(2, RoundingMode.HALF_UP)+"购物积分!");
             saleVos.add(itemSaleVo);
         }
         if(skuFullReductionEntity!=null){
             ItemSaleVo itemSaleVo = new ItemSaleVo();
             itemSaleVo.setType("满减");
-            itemSaleVo.setDesc("满"+skuFullReductionEntity.getFullPrice()+"减"+skuFullReductionEntity.getReducePrice());
+            itemSaleVo.setDesc("满"+skuFullReductionEntity.getFullPrice().setScale(2, RoundingMode.HALF_UP)+"减"+skuFullReductionEntity.getReducePrice().setScale(2, RoundingMode.HALF_UP));
             saleVos.add(itemSaleVo);
         }
         if(skuLadderEntity!=null){

@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 public class GmallAspect {
-
     @Autowired
     StringRedisTemplate stringRedisTemplate;
     @Autowired

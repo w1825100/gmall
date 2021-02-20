@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: msg-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 81a8e970-e742-4264-a70e-814088d01b3e
+        group: DEFAULT_GROUP
+        file-extension: yml
+  profiles:
+    active: dev

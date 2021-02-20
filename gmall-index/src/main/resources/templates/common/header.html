@@ -13,7 +13,7 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">谷粒欢迎您！</li>
-                        <li  v-if="nickName == ''" class="f-item"><span><a href="javascript:" @click="login()">登录</a></span>　<span><a href="#">免费注册</a></span></li>
+                        <li  v-if="nickName == ''" class="f-item"><span><a href="javascript:" @click="login()">登录</a></span>　<span><a href="javascript:" @click="reg()">免费注册</a></span></li>
                         <li  v-if="nickName != ''" class="f-item"><span>{{nickName}}</span>　<span><a href="javascript:" @click="logout">退出</a></span></li>
                     </ul>
                     <div class="fr typelist">
@@ -65,7 +65,7 @@
             <div class="py-container">
                 <div class="yui3-g Logo">
                     <div class="yui3-u Left logoArea">
-                        <a class="logo-bd" title="谷粒商城" href="http://www.gmall.com/index.html" target="_blank"></a>
+                        <a class="logo-bd" title="谷粒商城" href="http://gmall.com/index.html" target="_blank"></a>
                     </div>
                     <div class="yui3-u Rit searchArea">
                         <div class="search">
@@ -112,6 +112,9 @@
 
                 login() {
                     window.location.href = 'http://sso.gmall.com/toLogin.html?returnUrl='+window.location.href
+                },
+				 reg(){
+                    window.location.href = 'http://reg.gmall.com'
                 },
 
                 logout() {

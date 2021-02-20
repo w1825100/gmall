@@ -159,7 +159,7 @@ public final class CookieUtils {
 
 //		String serverName = request.getRequestURL().toString();
 		String serverName = request.getHeader("X-Forwarded-Host");
-
+		request.getHeader("Host");
 		if (serverName == null || serverName.equals("")) {
 			domainName = "";
 		} else {

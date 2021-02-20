@@ -1,6 +1,16 @@
 server:
   port: 18083
 spring:
+  thymeleaf:
+    cache: false
+  rabbitmq:
+    host: 111.1.1.11
+    port: 5672
+    virtual-host: FAST_B15A
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
   cloud:
     nacos:
       discovery:
@@ -33,6 +43,9 @@ feign:
 mybatis-plus:
   mapper-locations: classpath:mapper/ums/**/*.xml
   type-aliases-package: com.atguigu.gmall.ums.entity
+  global-config:
+    db-config:
+      id-type: auto
 logging:
   level:
     com.atguigu.gmall.ums.mapper: debug

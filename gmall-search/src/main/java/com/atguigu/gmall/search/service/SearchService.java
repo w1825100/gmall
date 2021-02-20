@@ -97,7 +97,7 @@ public class SearchService {
         ParsedNested attrAgg = (ParsedNested)stringAggregationMap.get("attrAgg");
         ParsedLongTerms categoryIdAgg = (ParsedLongTerms)stringAggregationMap.get("categoryIdAgg");
 
-        ParsedLongTerms attrIdAgg = (ParsedLongTerms)attrAgg.getAggregations().get("attrIdAgg");
+        ParsedLongTerms attrIdAgg = attrAgg.getAggregations().get("attrIdAgg");
         List<? extends Terms.Bucket> brandBuckets = brandIdAgg.getBuckets();
         List<? extends Terms.Bucket> categoryIdAggBuckets = categoryIdAgg.getBuckets();
         List<? extends Terms.Bucket> attrIdBuckets = attrIdAgg.getBuckets();
@@ -172,8 +172,9 @@ public class SearchService {
 
 
         String keyword = searchParamVo.getKeyword();
+        List<Long> brandId=searchParamVo.getBrandId();
         //关键字
-        if (StringUtils.isBlank(keyword)) {
+        if (StringUtils.isBlank(keyword)&&CollectionUtils.isEmpty(brandId)){
             //关键字为空,直接返回
             return searchSourceBuilder;
         }

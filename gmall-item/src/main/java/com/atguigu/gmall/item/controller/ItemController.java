@@ -5,6 +5,7 @@ import com.atguigu.gmall.item.service.ItemService;
 import com.atguigu.gmall.item.vo.ItemVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,10 +23,12 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @ResponseBody
+
     @GetMapping("{skuId}.html")
-    public ResponseVo<ItemVo> toItem(@PathVariable Long skuId){
+    public String  toItem(@PathVariable Long skuId, Model model){
       ItemVo itemVo= itemService.loadData(skuId);
-        return ResponseVo.ok(itemVo);
+        model.addAttribute("itemVo",itemVo);
+        itemService.asyncExecute(skuId);
+        return "item";
     }
 }

@@ -22,7 +22,7 @@
                                     <dl class="fore1">
                                         <dt><a href="">{{subCat.name}}</a></dt>
                                         <dd>
-                                            <em v-for="sub in subCat.subs"><a href="">{{sub.name}}</a></em>
+                                            <em v-for="sub in subCat.subs"><a href='http://search.gmall.com/search?keyword=3'>{{sub.name}}</a></em>
                                         </dd>
                                     </dl>
                                 </div>
@@ -51,6 +51,7 @@
         let app = new Vue({
             el: "#app",
             data: {
+                keyword:'',
                 categories: [[${categories}]]
             },
             // mounted(){},

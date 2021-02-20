@@ -104,7 +104,6 @@ public class EsTest {
                                     goods.setCategoryName(categoryEntity.getName());
                                 }
 
-
                                 //5.根据sku分类id查询检索类型attr
                                 List<SearchAttrValue> searchAttrValues = new ArrayList<SearchAttrValue>();
                                 ResponseVo<List<SkuAttrValueEntity>> SkuAttrValueEntityVo = pmsClient.querySkuAttrValueByCategoryIdAndSkuId(sku.getCategoryId(), sku.getId());
@@ -139,7 +138,6 @@ public class EsTest {
                     goodsRespository.saveAll(goodsList);
                 }
             });
-
             pageSize = spuEntities.size();
             pageNum++;
         } while (pageSize == 30);

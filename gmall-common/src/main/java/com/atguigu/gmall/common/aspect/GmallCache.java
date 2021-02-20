@@ -10,7 +10,7 @@ public @interface GmallCache {
 
     /**
      * @desc 缓存前缀
-     * @auth 刘广典
+     * @auth lgd
      * @Date 2021/2/8 1:07
      **/
     String prefix() default "";

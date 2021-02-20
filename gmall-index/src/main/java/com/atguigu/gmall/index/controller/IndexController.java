@@ -44,6 +44,12 @@ public class IndexController {
         model.addAttribute("categories", categories);
         return "index";
     }
+    @GetMapping("index.html")
+    public String toIndex1(Model model) {
+        List<CategoryEntity> categories = indexService.queryLV1Categories();
+        model.addAttribute("categories", categories);
+        return "index";
+    }
     /**
     *   @desc  查询二级分类及二级分类下三级分类
     *   @auth 刘广典

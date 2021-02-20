@@ -36,4 +36,9 @@ feign:
 logging:
   level:
     com.atguigu.gmall.item.feign: debug
-    com.alibaba.nacos.client.naming.updater: warn
+    com.alibaba.nacos.client.naming: warn
+threadPool:
+  coreSize: 100
+  maxSize: 500
+  keepAlive: 60
+  blockingQueue: 1000
