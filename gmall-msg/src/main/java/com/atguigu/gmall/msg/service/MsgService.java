@@ -36,9 +36,9 @@ public class MsgService {
     private SmsProperties smsProperties;
     @Autowired
     private  StringRedisTemplate redisTemplate;
-
+    private static final String CODE_PREFIX="gmall:sms:";
     public Boolean send(String mobile) {
-        String codeKey="mall:sms:"+mobile+"code";
+        String codeKey=CODE_PREFIX+mobile;
         //1.验证手机格式 2.判断是否有未过期验证码 3.生成验证码 3.1:发送 3.2:存redis
         boolean b = FormUtils.isMobile(mobile);
         if(!b){throw new GmallException("手机号不正确");

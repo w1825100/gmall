@@ -45,7 +45,6 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
     @Override
     public GatewayFilter apply(PathConfig config) {
         return (exchange, chain) -> {
-
             List<String> paths = config.paths;
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
@@ -61,7 +60,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
             log.info("请求头中token:{}",token);
             if (StringUtils.isBlank(token)) {
                 MultiValueMap<String, HttpCookie> cookies = request.getCookies();
-                if (!CollectionUtils.isEmpty(cookies)) {
+                if (!CollectionUtils.isEmpty(cookies)&&cookies.containsKey(jwtProperties.getCookieName())) {
                     HttpCookie cookie = cookies.getFirst(jwtProperties.getCookieName());
                     token = cookie.getValue();
                     log.info("cookie中token:{}",token);
@@ -117,4 +116,5 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
     public static class PathConfig {
         private List<String> paths;
     }
+
 }

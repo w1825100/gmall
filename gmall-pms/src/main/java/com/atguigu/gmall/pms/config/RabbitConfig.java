@@ -24,6 +24,7 @@ public class RabbitConfig {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
     @PostConstruct
     public  void  init(){
         rabbitTemplate.setConfirmCallback((@Nullable CorrelationData correlationData, boolean ack, @Nullable String cause)->{

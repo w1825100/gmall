@@ -21,12 +21,7 @@ import java.sql.SQLOutput;
 public class MyGlobalFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.out.println("全局拦截....");
-        System.out.println(exchange.getRequest().toString());
-        String host = exchange.getRequest().getHeaders().getFirst("Host");
-        String origin = exchange.getRequest().getHeaders().getFirst("Origin");
-        log.info("host:{}",host);
-        log.info("origin:{}",origin);
+
         return chain.filter(exchange);
     }
 }

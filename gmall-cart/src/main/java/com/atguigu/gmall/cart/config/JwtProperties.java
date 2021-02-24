@@ -25,6 +25,7 @@ public class JwtProperties {
   private  String cookieName;
   private PublicKey publicKey;
   private String userKey;
+  private Integer expire;
 
 
     @PostConstruct

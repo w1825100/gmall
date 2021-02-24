@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -79,7 +80,7 @@ public class GmallAspect {
             //缓存没有,访问数据库
             Object result=joinPoint.proceed(joinPoint.getArgs());
             if(result!=null){
-                stringRedisTemplate.opsForValue().set(key,JSON.toJSONString(result),timeout, TimeUnit.SECONDS);
+                stringRedisTemplate.opsForValue().set(key,JSON.toJSONString(result),timeout+new Random().nextInt(10), TimeUnit.MINUTES);
             }
             return result;
         }finally{

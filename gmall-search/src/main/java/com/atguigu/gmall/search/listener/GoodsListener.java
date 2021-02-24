@@ -9,6 +9,7 @@ import com.atguigu.gmall.search.pojo.Goods;
 import com.atguigu.gmall.search.pojo.SearchAttrValue;
 import com.atguigu.gmall.wms.entity.WareSkuEntity;
 import com.rabbitmq.client.Channel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
  * @create: 2021-02-03 21:05
  **/
 @Component
+@Slf4j
 public class GoodsListener {
 
     @Autowired
@@ -47,6 +49,7 @@ public class GoodsListener {
             key = {"item.insert"}
     ))
     public void listener(Long spuId, Channel channel, Message message) throws IOException {
+      log.info("搜索监听到mq消息.....:{}",spuId);
         if (spuId == null) {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             return;

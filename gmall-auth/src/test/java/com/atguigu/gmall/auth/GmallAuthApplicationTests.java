@@ -7,10 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.OutputStream;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -34,9 +31,10 @@ class GmallAuthApplicationTests {
         list.add(3);
         List<Integer> collect = list.stream().collect(
                 ArrayList::new,ArrayList::add,ArrayList::addAll);
-        System.out.println(collect);
-
-
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("1",1000L);
+        System.out.println(map.get("1").getClass());
     }
+
 
 }
