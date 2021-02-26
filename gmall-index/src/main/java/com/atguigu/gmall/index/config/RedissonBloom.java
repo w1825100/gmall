@@ -31,7 +31,7 @@ public class RedissonBloom {
 
     @Bean
     public RBloomFilter bloomFilter(){
-        RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter("index:bloom");
+        RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter("gmall:index:bloom");
         bloomFilter.tryInit(3000,0.03);
         ResponseVo<List<CategoryEntity>> listResponseVo = pmsClient.queryCategoryListByPid(0L);
         List<CategoryEntity> data = listResponseVo.getData();

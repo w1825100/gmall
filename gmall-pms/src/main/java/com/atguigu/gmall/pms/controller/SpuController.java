@@ -2,7 +2,11 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.pms.feign.GmallSmsClient;
 import com.atguigu.gmall.pms.vo.SpuVo;
+import com.atguigu.gmall.sms.api.GmallSmsApi;
+import com.atguigu.gmall.sms.vo.SkuSaleDto;
+import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -98,14 +102,20 @@ public class SpuController {
         return ResponseVo.ok();
     }
 
+
+
+    @Autowired
+    GmallSmsClient smsClient;
     /**
      * 修改
      */
+    @GlobalTransactional
     @PostMapping("/update")
     @ApiOperation("修改")
     public ResponseVo update(@RequestBody SpuEntity spu){
 		spuService.updateById(spu);
         rabbitTemplate.convertAndSend("PMS_ITEM_EXCHANGE","item.update",spu.getId());
+//        smsClient.saveSales(new SkuSaleDto());
         return ResponseVo.ok();
     }
 

@@ -33,7 +33,7 @@ public class Goods {
 
     // 排序和筛选字段
     @Field(type = FieldType.Long)
-    private Long sales=0l; // 销量
+    private Long sales= 0L; // 销量
     @Field(type = FieldType.Date)
     private Date createTime; // 创建时间
     @Field(type = FieldType.Boolean)

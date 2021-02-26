@@ -136,10 +136,13 @@ public final class CookieUtils {
 				cookieValue = URLEncoder.encode(cookieValue, encodeString);
 			}
 			Cookie cookie = new Cookie(cookieName, cookieValue);
-			if (cookieMaxAge != null && cookieMaxAge > 0)
+			if (cookieMaxAge != null && cookieMaxAge > 0) {
 				cookie.setMaxAge(cookieMaxAge);
+			}
 			if (null != request)// 设置域名的cookie
+			{
 				cookie.setDomain(getDomainName(request));
+			}
 			cookie.setPath("/");
 
 			if(httpOnly != null) {
@@ -160,7 +163,7 @@ public final class CookieUtils {
 //		String serverName = request.getRequestURL().toString();
 		String serverName = request.getHeader("X-Forwarded-Host");
 		request.getHeader("Host");
-		if (serverName == null || serverName.equals("")) {
+		if (serverName == null || "".equals(serverName)) {
 			domainName = "";
 		} else {
 			serverName = serverName.toLowerCase();

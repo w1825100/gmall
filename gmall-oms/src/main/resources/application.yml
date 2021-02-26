@@ -27,10 +27,25 @@ spring:
     url: jdbc:mysql://111.1.1.11:3306/guli_oms
     username: root
     password: 123456
-
+    #mq相关
+  rabbitmq:
+    host: 111.1.1.11
+    virtual-host: FAST_B15A
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
+        concurrency: 3
 feign:
   sentinel:
     enabled: true
 mybatis-plus:
   mapper-locations: classpath:mapper/oms/**/*.xml
   type-aliases-package: com.atguigu.gmall.oms.entity
+  global-config:
+    db-config:
+      id-type: auto

@@ -1,6 +1,7 @@
 package com.atguigu.gmall.cart.config;
 
-import com.atguigu.gmall.cart.interceptor.AsyncExeceptionHandler;
+
+import com.atguigu.gmall.cart.interceptor.CartAsyncExceptionHandler;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -17,7 +18,7 @@ import java.util.concurrent.Executor;
 @Component
 public class AsyncExceptionConfig implements AsyncConfigurer {
     @Autowired
-    private AsyncExeceptionHandler asyncExeceptionHandler;
+    private CartAsyncExceptionHandler cartAsyncExceptionHandler;
 
     @Override
     public Executor getAsyncExecutor() {
@@ -26,6 +27,6 @@ public class AsyncExceptionConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return asyncExeceptionHandler;
+        return cartAsyncExceptionHandler;
     }
 }

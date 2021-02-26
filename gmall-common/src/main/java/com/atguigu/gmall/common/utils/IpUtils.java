@@ -6,6 +6,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 /**
  * 获取ip地址
@@ -40,7 +41,7 @@ public class IpUtils {
             }
             if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
                 ipAddress = request.getRemoteAddr();
-                if (ipAddress.equals("127.0.0.1")) {
+                if ("127.0.0.1".equals(ipAddress)) {
                     // 根据网卡取本机配置的IP
                     InetAddress inet = null;
                     try {
@@ -100,4 +101,14 @@ public class IpUtils {
         }
         return ip;
     }
+
+    public static void main(String[] args) {
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put(1,3);
+        map.put(1,2);
+        System.out.println(map);
+
+    }
+
+
 }

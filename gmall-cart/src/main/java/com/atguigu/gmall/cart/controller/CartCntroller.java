@@ -1,5 +1,6 @@
 package com.atguigu.gmall.cart.controller;
 
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.cart.interceptor.AuthHandler;
 import com.atguigu.gmall.cart.pojo.Cart;
@@ -101,7 +102,6 @@ public class CartCntroller {
         cartService.chooseAll();
         return ResponseVo.ok();
     }
-
 
     @ResponseBody
     @GetMapping("hello")

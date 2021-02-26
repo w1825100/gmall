@@ -50,6 +50,11 @@ public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsMapper, SkuBounds
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveSales(SkuSaleDto skuSaleDto) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //1保存sku_bounds表
         SkuBoundsEntity skuBoundsEntity=new SkuBoundsEntity();
         BeanUtils.copyProperties(skuSaleDto,skuBoundsEntity);

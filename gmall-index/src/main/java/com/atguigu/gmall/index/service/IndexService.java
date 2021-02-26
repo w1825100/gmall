@@ -36,7 +36,7 @@ public class IndexService {
     private static final String KEY_PREFIX = "gmall:index:cates:";
 
     public List<CategoryEntity> queryLV1Categories() {
-        ResponseVo<List<CategoryEntity>> categoryEntityResponseVo = gmallPmsClient.queryCategoryListByPid(0l);
+        ResponseVo<List<CategoryEntity>> categoryEntityResponseVo = gmallPmsClient.queryCategoryListByPid(0L);
         return categoryEntityResponseVo.getData();
     }
     //使用aop注解缓存

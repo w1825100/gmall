@@ -84,8 +84,6 @@ public class SkuController {
     @PostMapping("/update")
     @ApiOperation("修改")
     public ResponseVo update(@RequestBody SkuEntity sku){
-		skuService.updateById(sku);
-
         return ResponseVo.ok();
     }
 

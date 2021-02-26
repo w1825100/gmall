@@ -64,7 +64,7 @@ public class MsgService {
             CommonResponse response = client.getCommonResponse(request);
             String data = response.getData();
             Map dataMap=gson.fromJson(data, Map.class);
-            if(!dataMap.get("Code").toString().equals("OK")){
+            if(!"OK".equals(dataMap.get("Code").toString())){
                 log.error(dataMap.toString());
                 throw new RuntimeException();
             }

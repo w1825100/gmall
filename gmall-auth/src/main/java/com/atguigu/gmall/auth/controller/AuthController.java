@@ -34,7 +34,7 @@ public class AuthController {
             , String loginName, String password
             , HttpServletRequest request, HttpServletResponse response) {
         authService.login(loginName, password, request, response);
-        if (returnUrl.equals("http://reg.gmall.com/")) {
+        if ("http://reg.gmall.com/".equals(returnUrl)) {
             returnUrl = "http://gmall.com";
         }
         return "redirect:" + returnUrl;

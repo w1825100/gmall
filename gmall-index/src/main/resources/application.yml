@@ -33,5 +33,5 @@ feign:
     enabled: true
 logging:
   level:
-    com.atguigu.gmall.search.feign: debug
+    com.atguigu.gmall.index.feign: debug
     com.alibaba.nacos.client.naming.updater: warn

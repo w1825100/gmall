@@ -29,6 +29,7 @@ public class SpuDescServiceImpl extends ServiceImpl<SpuDescMapper, SpuDescEntity
 
         return new PageResultVo(page);
     }
+    @Override
     @Transactional
     public void saveSpuDesc(Long spuId, List<String> spuImages) {
         SpuDescEntity spuDescEntity = new SpuDescEntity();

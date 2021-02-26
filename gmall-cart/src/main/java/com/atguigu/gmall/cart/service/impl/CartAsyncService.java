@@ -20,18 +20,19 @@ public class CartAsyncService {
     CartMapper cartMapper;
 
     @Async
-    public void insert(Cart cart) {
+    public void insert(String userId,Cart cart) {
         cartMapper.insert(cart);
     }
 
     @Async
-    public void update(Cart cart, QueryWrapper<Cart> queryWrapper) {
+    public void update(String userId,Cart cart, QueryWrapper<Cart> queryWrapper) {
+//        int i=1/0;
         cartMapper.update(cart, queryWrapper);
     }
 
     @Async
-    public void deleteByUserId(String userKey) {
-        cartMapper.delete(new QueryWrapper<Cart>().eq("user_id", userKey));
+    public void deleteByUserId(String userId) {
+        cartMapper.delete(new QueryWrapper<Cart>().eq("user_id", userId));
     }
 
     @Async

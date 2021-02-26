@@ -31,6 +31,15 @@ import java.util.Map;
  * @author: lgd
  * @create: 2021-02-19 18:21
  **/
+
+/**
+*   @desc
+ *   该类以"XXX"GatewayFilterFactory开头,
+ *   会被网关以XXX作为过滤条件进行配置文件中配置了filters: - XXX=/**
+ *   的服务匹配进行拦截,没配置的则不拦截
+*   @auth lgd
+*   @Date 2021/2/25 13:59
+**/
 @Component
 @Slf4j
 public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthGatewayFilterFactory.PathConfig> {
@@ -67,6 +76,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 }
             }
             if (StringUtils.isBlank(token)) {
+                log.info("未获取到有效token,跳转首页...");
                 //没获取到token,拦截
                 response.setStatusCode(HttpStatus.SEE_OTHER);
                 response.getHeaders().set(HttpHeaders.LOCATION, "http://sso.gmall.com/toLogin.html?returnUrl=" + request.getURI());
@@ -81,6 +91,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 String ipAddress = IpUtils.getIpAddressAtGateway(request);
                log.info("真实ip:{}",ipAddress);
                 if (!StringUtils.equals(ipInJwt, ipAddress)) {
+                    log.info("用户ip已改变,需要重新登录...原始ip:{},目前ip:{}",ipInJwt,ipAddress);
                     response.setStatusCode(HttpStatus.SEE_OTHER);
                     response.getHeaders().set(HttpHeaders.LOCATION, "http://sso.gmall.com/toLogin.html?returnUrl=" + request.getURI());
                     return response.setComplete();
