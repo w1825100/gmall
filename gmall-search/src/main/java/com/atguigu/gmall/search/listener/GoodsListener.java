@@ -49,7 +49,7 @@ public class GoodsListener {
             key = {"item.insert"}
     ))
     public void listener(Long spuId, Channel channel, Message message) throws IOException {
-      log.info("搜索监听到mq消息.....:{}",spuId);
+      log.info("搜索微服务监听到mq消息.....:{}",spuId);
         if (spuId == null) {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             return;
@@ -135,5 +135,10 @@ public class GoodsListener {
         }
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
+
+
+
+
+
 
 }

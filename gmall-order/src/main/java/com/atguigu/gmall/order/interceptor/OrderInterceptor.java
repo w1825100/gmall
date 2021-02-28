@@ -1,4 +1,4 @@
-package com.atguigu.gmall.order.config;
+package com.atguigu.gmall.order.interceptor;
 
 
 import com.atguigu.gmall.common.bean.UserInfo;

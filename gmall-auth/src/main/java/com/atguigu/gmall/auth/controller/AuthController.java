@@ -36,7 +36,10 @@ public class AuthController {
         authService.login(loginName, password, request, response);
         if ("http://reg.gmall.com/".equals(returnUrl)) {
             returnUrl = "http://gmall.com";
+        }else if("http://order.gmall.com/confirm".equals(returnUrl)){
+            returnUrl="http://cart.gmall.com/cart.html";
         }
+
         return "redirect:" + returnUrl;
     }
 

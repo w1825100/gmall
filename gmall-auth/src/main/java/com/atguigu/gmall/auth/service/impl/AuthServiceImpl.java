@@ -52,6 +52,7 @@ public class AuthServiceImpl implements AuthService {
             String token= JwtUtils.generateToken(map,jwtProperties.getPrivateKey(),jwtProperties.getExpire());
             CookieUtils.setCookie(request,response,jwtProperties.getCookieName(),token,jwtProperties.getExpire()*60 );
             CookieUtils.setCookie(request,response,jwtProperties.getUnick(),userEntity.getNickname(),jwtProperties.getExpire()*60);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

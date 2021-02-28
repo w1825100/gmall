@@ -44,7 +44,7 @@ public class CartPriceListener {
             )}
     )
     public void listener(Long spuId, Channel channel, Message message){
-        log.info("购物车监听到mq消息了,spuId:{}", spuId);
+        log.warn("购物车价格同步监听到mq消息了,spuId:{}", spuId);
         try {
             ResponseVo<List<SkuEntity>> resp = pmsClient.querySkusBySpuId(spuId);
             List<SkuEntity> skus = resp.getData();
@@ -55,15 +55,13 @@ public class CartPriceListener {
             skus.forEach(sku->{
                 String key=CART_PRICE+sku.getId();
                 if(stringRedisTemplate.hasKey(key)){
-                    log.info("同步sku价格:skuId={},skuPrice={}",sku.getId(),sku.getPrice());
+                    log.warn("同步sku价格:skuId={},skuPrice={}",sku.getId(),sku.getPrice());
                     stringRedisTemplate.opsForValue().set(key,sku.getPrice().toString());
                 }
             });
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-            log.info("购物车监听器异常:{}",e.getMessage());
-
+            log.warn("购物车监听器异常:{}",e.getMessage());
         }
-
     }
 }

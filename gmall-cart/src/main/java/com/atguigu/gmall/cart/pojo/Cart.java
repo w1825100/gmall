@@ -26,6 +26,7 @@ public class Cart implements Serializable {
     @TableField("sale_attrs")
     private String saleAttrs; // 销售属性：List<SkuAttrValueEntity>的json格式
     private BigDecimal price; // 加入购物车时的价格
+    @TableField(exist = false)
     private BigDecimal currentPrice; //当前价格
     private BigDecimal count; //数量
     private Boolean store = false; // 是否有货

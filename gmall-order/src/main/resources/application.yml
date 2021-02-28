@@ -29,6 +29,8 @@ spring:
     virtual-host: FAST_B15A
     username: admin
     password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
     listener:
       simple:
         prefetch: 1
@@ -37,8 +39,5 @@ spring:
 feign:
   sentinel:
     enabled: true
-logging:
-  level:
-    com.atguigu.gmall.order.feign: debug
-    com.alibaba.nacos.client.naming: error
+
 

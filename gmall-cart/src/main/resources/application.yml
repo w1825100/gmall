@@ -62,7 +62,4 @@ auth:
     expire: 1800000
 logging:
   level:
-    com.atguigu.gmall.cart.mapper: debug
-    com.atguigu.gmall.cart.feign: debug
     com.alibaba.nacos.client.naming: error
-

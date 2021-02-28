@@ -2,6 +2,9 @@ package com.atguigu.gmall.oms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.oms.entity.OrderEntity;
+import com.atguigu.gmall.oms.vo.OrderSubmitVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atguigu.gmall.oms.entity.OrderEntity;
+
 import com.atguigu.gmall.oms.service.OrderService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
@@ -33,6 +36,27 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+
+
+    @GetMapping("query/{orderToken}")
+    public ResponseVo<OrderEntity> queryOrderByUserIdAndOrderToken(
+            @PathVariable("orderToken")String orderToken,
+            @RequestParam("userId")Long userId
+    ){
+        OrderEntity orderEntity = this.orderService.getOne(new QueryWrapper<OrderEntity>().eq("user_id", userId).eq("order_sn", orderToken));
+        return ResponseVo.ok(orderEntity);
+    }
+
+    @PostMapping("save/{userId}")
+    public ResponseVo<OrderEntity> saveOrder(@RequestBody OrderSubmitVo submitVo, @PathVariable("userId")Long userId){
+        OrderEntity orderEntity = this.orderService.saveOrder(submitVo, userId);
+        return ResponseVo.ok(orderEntity);
+    }
+
+
+
+
 
     /**
      * 列表

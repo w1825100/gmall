@@ -14,10 +14,6 @@ import java.util.List;
  * @create: 2021-02-24 21:15
  **/
 public interface GmallCartApi {
-    @GetMapping("delete/{userId}")
-    @ApiOperation("根据用户id删除mysql购物车")
-    ResponseVo deleteByUserId(@PathVariable String userId);
-
 
     @ApiOperation("查询购物车选中状态")
     @GetMapping("user/{userId}")

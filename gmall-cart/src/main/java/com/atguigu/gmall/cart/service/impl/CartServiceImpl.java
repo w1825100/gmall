@@ -2,6 +2,7 @@ package com.atguigu.gmall.cart.service.impl;
 
 
 import com.alibaba.fastjson.JSON;
+import com.atguigu.gmall.cart.consts.CartConstants;
 import com.atguigu.gmall.cart.feign.GmallPmsClient;
 import com.atguigu.gmall.cart.feign.GmallSmsClient;
 import com.atguigu.gmall.cart.feign.GmallWmsClient;
@@ -21,6 +22,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -57,8 +59,6 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     CartAsyncService cartAsyncService;
 
 
-    private static final String CART_PREFIX = "gmall:cart:";
-    private static final String CART_PRICE = "gmall:cart:price:";
 
 
   /*  @Override
@@ -138,7 +138,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         //判断内层redisKey是否已存在,存在则更新数量,否则新增
         if (hashOps.hasKey(skuId.toString())) {
             String cartJson = hashOps.get(skuId.toString());
-            log.info("redis中已有购物车:{}", cartJson);
+            log.warn("redis中已有购物车,更新数量:{}", cartJson);
             cart = JSON.parseObject(cartJson, Cart.class);
             cart.setCount(cart.getCount().add(count));
             //更新redis数据
@@ -146,7 +146,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
             //异步更新mysql
             cartAsyncService.update(userId,cart, new QueryWrapper<Cart>().eq("user_id", userId).eq("sku_id", skuId));
         } else {
-            log.info("redis中无购物车,执行新增..");
+            log.warn("redis中无购物车,执行新增..");
             //新增购物车项 查询sku信息填充cart
             ResponseVo<SkuEntity> skuVo = pmsClient.querySkuById(cart.getSkuId());
             SkuEntity sku = skuVo.getData();
@@ -176,7 +176,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
             hashOps.put(skuId.toString(), JSON.toJSONString(cart));
             cartAsyncService.insert(userId,cart);
             //添加价格缓存
-            stringRedisTemplate.opsForValue().set(CART_PRICE + skuId, sku.getPrice().toString());
+            stringRedisTemplate.opsForValue().set(CartConstants.CART_PRICE + skuId, sku.getPrice().toString());
 
         }
     }
@@ -185,7 +185,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     public List<Cart> queryCarts() {
         //1.根据userKey查询购物车
         String userKey = AuthHandler.getUserInfo().getUserKey();
-        String temKey = CART_PREFIX + userKey;
+        String temKey = CartConstants.CART_PREFIX + userKey;
 
         BoundHashOperations<String, String, String> unLoginhashOps = stringRedisTemplate.boundHashOps(temKey);
         List<String> cartUnLoginJsons = unLoginhashOps.values();
@@ -195,7 +195,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
                     cartJson -> {
                         Cart cart = JSON.parseObject(cartJson, Cart.class);
                         //查询时获取最新价格
-                        cart.setCurrentPrice(new BigDecimal(stringRedisTemplate.opsForValue().get(CART_PRICE + cart.getSkuId())));
+                        cart.setCurrentPrice(new BigDecimal(stringRedisTemplate.opsForValue().get(CartConstants.CART_PRICE + cart.getSkuId())));
                         return cart;
                     }
             ).collect(Collectors.toList());
@@ -203,16 +203,21 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         Long userId = AuthHandler.getUserInfo().getUserId();
         //2.未登录直接返回
         if (userId == null) {
+            log.warn("用户未登录,返回未登录购物车,userKey:{}",userKey);
             return unLoginCarts;
         }
         // 3.登录状态合并购物车
-        String loginKey = CART_PREFIX + userId;
+        String loginKey = CartConstants.CART_PREFIX + userId;
         BoundHashOperations<String, String, String> loginHashOps = stringRedisTemplate.boundHashOps(loginKey);
+
         List<String> values = loginHashOps.values();
+        log.warn("登录购物车状态:{}",values);
+        log.warn("未登录购物车状态,{}",unLoginCarts);
         if (!CollectionUtils.isEmpty(unLoginCarts)){
             unLoginCarts.forEach(unLogincart -> {
                 String skuId = unLogincart.getSkuId().toString();
                 if (loginHashOps.hasKey(skuId)) {
+                    log.warn("合并登录购物车中sku,skuId:{}",skuId);
                     //登录状态已有该商品
                     Cart loginCart = JSON.parseObject(loginHashOps.get(skuId), Cart.class);
                     loginCart.setCount(loginCart.getCount().add(unLogincart.getCount()));
@@ -221,6 +226,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
                     this.cartAsyncService.update(userId.toString(),loginCart, new QueryWrapper<Cart>().eq("user_id", userId).eq("sku_id", skuId));
                 }
                 else {
+                    log.warn("登录购物车无此商品,新增登录购物车中sku,skuId:{}",skuId);
                     //没有该商品,新增一条记录
                     unLogincart.setUserId(userId.toString());
                     loginHashOps.put(skuId, JSON.toJSONString(unLogincart));
@@ -228,20 +234,24 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
                     cartAsyncService.insert(userId.toString(),unLogincart);
                 }
                 //4.删除未登录购物车
+                log.warn("合并完成,删除未登录购物车");
                 stringRedisTemplate.delete(temKey);
                 cartAsyncService.deleteByUserId(userKey);
             });
         }
+
         //5.汇总,返回
         List<String> loginCarts = loginHashOps.values();
         if (CollectionUtils.isEmpty(loginCarts)) {
             return null;
         }
+        log.warn("返回登录状态购物车");
         return loginCarts.stream().map(cartJson -> {
             Cart cart = JSON.parseObject(cartJson, Cart.class);
-            cart.setCurrentPrice(new BigDecimal(stringRedisTemplate.opsForValue().get(CART_PRICE + cart.getSkuId())));
+            cart.setCurrentPrice(new BigDecimal(stringRedisTemplate.opsForValue().get(CartConstants.CART_PRICE + cart.getSkuId())));
             return cart;
         }).collect(Collectors.toList());
+
     }
 
     @Override
@@ -265,9 +275,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         UserInfo userInfo = AuthHandler.getUserInfo();
         Long userId = userInfo.getUserId();
         if (userId != null) {
-            redisKey = CART_PREFIX + userId;
+            redisKey = CartConstants.CART_PREFIX + userId;
         } else {
-            redisKey = CART_PREFIX + userInfo.getUserKey();
+            redisKey = CartConstants.CART_PREFIX + userInfo.getUserKey();
         }
         return redisKey;
     }
@@ -313,7 +323,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     }
 
     public List<Cart> queryCheckedCartsByUserId(Long userId) {
-        String key = CART_PREFIX + userId;
+        String key = CartConstants.CART_PREFIX + userId;
 
         BoundHashOperations<String, String, String> hashOps = this.stringRedisTemplate.boundHashOps(key);
         List<String> cartJsons = hashOps.values();
