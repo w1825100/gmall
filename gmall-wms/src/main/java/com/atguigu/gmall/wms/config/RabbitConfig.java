@@ -35,7 +35,7 @@ public class RabbitConfig {
     @Bean
     public Queue ttlUnlockWare(){
        Map<String,Object> map=new HashMap<>();
-       map.put("x-message-ttl", 100000);
+       map.put("x-message-ttl", 1000000);
        map.put("x-dead-letter-exchange", "ORDER_EXCHANGE");
        map.put("x-dead-letter-routing-key", "stock.unlock");
         return new Queue("STOCK_TTL_QUEUE",true,false,false,map);

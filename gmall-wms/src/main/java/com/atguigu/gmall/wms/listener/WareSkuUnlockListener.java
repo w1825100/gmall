@@ -6,7 +6,11 @@ import com.atguigu.gmall.wms.vo.SkuLockVo;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,4 +77,46 @@ public class WareSkuUnlockListener {
         }
 
     }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "STOCK_MINUS_QUEUE", durable = "true"),
+            exchange = @Exchange(value = "ORDER_EXCHANGE", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
+            key = {"stock.minus"}
+    ))
+    public void minus(String orderToken, Message message, Channel channel) throws IOException {
+
+        if (StringUtils.isBlank(orderToken)){
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            return ;
+        }
+
+        // 获取redis中缓存的锁定库存信息
+        String json = this.redisTemplate.opsForValue().get(LOCK_PREFIX + orderToken);
+        if (StringUtils.isBlank(json)){ // 如果缓存的锁定库存信息为空，直接消费掉消息
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            return ;
+        }
+        log.warn("wms解锁库存");
+        // 反序列化锁定库存信息的集合
+        List<SkuLockVo> skuLockVos = JSON.parseArray(json, SkuLockVo.class);
+        if (CollectionUtils.isEmpty(skuLockVos)){
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            return ;
+        }
+        // 遍历集合减库存信息
+        skuLockVos.forEach(lockVo -> {
+            this.wareSkuMapper.minus(lockVo.getWareSkuId(), lockVo.getCount());
+        });
+
+        // 删除锁定库存的缓存
+        this.redisTemplate.delete(LOCK_PREFIX + orderToken);
+
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    }
+
+
+
+
+
+
 }

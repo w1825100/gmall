@@ -31,7 +31,7 @@ spring:
 
    #feign
   datasource:
-    url: jdbc:mysql://111.1.1.11:3306/guli_pms
+    url: jdbc:mysql://111.1.1.11:3306/guli_pms?useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123456

@@ -27,7 +27,7 @@ public class CreateOrderPublisher {
     @Bean
     public Queue orderDelayQueue(){
         HashMap<String, Object> argsMap = new HashMap<>();
-        argsMap.put("x-message-ttl",90000);
+        argsMap.put("x-message-ttl",900000);
         argsMap.put("x-dead-letter-exchange", "ORDER_EXCHANGE");
         argsMap.put("x-dead-letter-routing-key","order.dead");
         Queue order_delay = new Queue("ORDER_DELAY", true, false, false,argsMap);
