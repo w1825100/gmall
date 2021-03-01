@@ -1,0 +1,45 @@
+server:
+  port: 18093
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    sender:
+      type: web
+    discovery-client-enabled: true
+  sleuth:
+    sampler:
+      probability: 1
+  thymeleaf:
+    cache: false
+  rabbitmq:
+    host: 111.1.1.11
+    virtual-host: FAST_B15A
+    username: admin
+    password: admin
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://111.1.1.11:3306/guli_payment?useSSL=false
+    username: root
+    password: 123456
+  redis:
+    host: 111.1.1.11
+feign:
+  sentinel:
+    enabled: true
+alipay:
+  gatewayUrl: https://openapi.alipaydev.com/gateway.do
+  app_id: 2021000117614596
+  merchant_private_key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCdU+eKoIfYrOSTOODFbuz+2QpPWvrbBLZgS8M+CnoOj79vswNf1eU1apnpC5G4uWeMNYNZpT5d13kKsip+a6tSv2LJ9T+BzBHKPLiI0ifftyHMEdb2Ud/P/++I1BaKA45t8VuX4cD6nOhijZXLcSfEAkKwY3IJQRLc08T/KvavWOKSeWfjGcrdLhbyu7WgyedD3L1RUOb5d6eFYG/kaTqBnilX1Of+ZdesHpKrtb6AGVU93xJK7pwTiNRI8Y8+xrNZ9imceikkTGFdNq0yn+MsMkEdNwF1z7rhuWr//h20MYMrVKP4W7y2HE9gTPqrEQ/QBpaJHuuimRipUtJPWO/rAgMBAAECggEAVOlS/0vS5cuydg7tqUFMIeOsH9Y/q/OoJuLdFl/7Ll7A+J1KRfAgjCrjtJas6GEQlOjQ4pI/zdAcoPw12RNtXPS0ccGuq/Qi6d7JzfZ21NR3Jje+qCTaQd2lP1kQbR6sQYRRZfDPAbOr7Hz0CuAgkTaTHbYedwYrEwosuXdLuqjJm4TEcpTGlXWSCPcyQs0STBqNjkdZUJJ/JruuqB/Bhz/9FOerHtdhcn27jhC5FAcKxD8C4T69VSlavjTaDEdoqX0L3LzxGjLZTPmMkfVJXnRVwodlV0oatHuwytpQXxi5e9oQgoyeBYshRCMTGSyVnmU3QElE/OpRpuGtSN/cQQKBgQDepdphjxMQvnf+ezO6qcylreiXdcEKEzTb5ooqVwfTBoC2cZZR3cxD+4w6C0nfBQcMdLSUIZTFmyiCdKvnD5uW9tHsuOIEcYatcyT3hXx/0hBigWBJEvRKQDSErRuUkKXvZBrOztTAwqyYpieHpUWdAhAMHaFG5h7U9sYQnQ0ISwKBgQC05SReskeNf6hMFNSus9vCkK+TC3mwnt70hK5/mVV+Y0VPmkB30A5/axFomfalIh7v5FSHF0ClmHv/LemMwpoBXOmAoIK+Np6QzmEb7M0IyHTpb+fUr/Staj4zfngBGxV0uZJnRRC329VlT09hz1WWDxLKnucXxqp2aN53shIy4QKBgQCVczC2YcqDZ8a1/E8J0iZ7Y9QHrtQoBiJqJULDDu5CmU/Wp0Imq8IMNBK5d5Bbck177+6yrCPnzLGRd+1XySNAX2ckBio4n1eun+bFe0XJquCyrnNKOb3fBV/7WxNzUvD/UuunvDAVP9eJE6bfJ3Il5ReOemkiZR93BjqHNlRkJwKBgHYxEWZeDapCMnAjXCMZmQizCESHRudDpmEVH/527Qk7S1oLavvdkNtn1WQG1MRoWtZa1W++nZqU2s+L7ADwVTd2wYotVb96aHgsn/5i5kRK1TiAyXSJ0tBLjoCOrVHrpEUzyph248l9dRxQiYlasoztJFYHJO6/+ziKpHCIhKOBAoGBAKgjvyzFdnWVyON4RnjvSM53t8njHOJ4oxqWrcsGhVA/KRJbHJZm+SfekH/qH2FokzB9VMe8ClUVwcvZE5JFGo/GqU+JOCj0+SzughwSw7jE5bdkW5Z9Mukjmx088iipY9u6KI4OXe5O0ISMzQXtOG9STTws8FA04M7Cs2YoiovL
+  alipay_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo2LEwtmFaTWy9mWTIVJM1+xNi3ie8HF3OUorAYyxtkGcYp2EpbpAyGzJxsZrKSNaVmB8x12XplR2Q6Zl52CBu6TBvWQ5goO0yA60KvfZIf+BoKlRkgo60aPzRDg7CeDQ1l7BmgMfjui6h2R1jkAgfWZI3QvCagm8N/DY2pTv+87Hho7rusBiSgXfdUm/K6CAe43JrxmaVENTRT96JYZSjgz25Z30E5ZnoBc9eAiqchV3NBRSoockX55noirD1v5lMpOv+DgnNjr+qjH2IyhCdllx0OB1NxyBEx9edDyFQ/sFVnDFpNhPiSrGLpGXdSXczOuIHxPIwkx40OqYPQtlxwIDAQAB
+  notify_url: http://lgdd.cn.utools.club/pay/ok
+  return_url: http://lgdd.cn.utools.club/pay/success

@@ -37,6 +37,11 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping("orderToken/{orderToken}")
+    public ResponseVo<OrderEntity> queryOrderByToken(@PathVariable("orderToken")String orderToken){
+        OrderEntity orderEntity = this.orderService.getOne(new QueryWrapper<OrderEntity>().eq("order_sn", orderToken));
+        return ResponseVo.ok(orderEntity);
+    }
 
 
     @GetMapping("query/{orderToken}")

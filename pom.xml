@@ -39,7 +39,6 @@
         <module>gmall-ums-interface</module>
         <module>gmall-cart-interface</module>
         <module>gmall-oms-interface</module>
-        <module>gmall-payment</module>
     </modules>
 
     <properties>

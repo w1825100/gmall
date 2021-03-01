@@ -45,6 +45,7 @@ public class SuccessOrderListenner {
 
         // 更新订单状态为成功
         if (this.orderMapper.updateStatus(orderToken, 1, 0) == 1) {
+            log.warn("oms订单更新成功,给wms发消息减少库存..");
             // 发送消息给wms减库存
             this.rabbitTemplate.convertAndSend("ORDER_EXCHANGE", "stock.minus", orderToken);
             // TODO：发送消息给用户加积分userId integration growth

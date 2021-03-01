@@ -84,7 +84,7 @@ public class WareSkuUnlockListener {
             key = {"stock.minus"}
     ))
     public void minus(String orderToken, Message message, Channel channel) throws IOException {
-
+            log.warn("wms接收到消息,开始减库存..");
         if (StringUtils.isBlank(orderToken)){
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             return ;
@@ -105,6 +105,7 @@ public class WareSkuUnlockListener {
         }
         // 遍历集合减库存信息
         skuLockVos.forEach(lockVo -> {
+            log.warn("wms减少了库存skuId{},count:{}",lockVo.getWareSkuId(),lockVo.getCount());
             this.wareSkuMapper.minus(lockVo.getWareSkuId(), lockVo.getCount());
         });
 

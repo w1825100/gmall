@@ -21,7 +21,7 @@ import java.sql.SQLOutput;
 public class MyGlobalFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
+        log.warn("来到了全局过滤器");
         return chain.filter(exchange);
     }
 }

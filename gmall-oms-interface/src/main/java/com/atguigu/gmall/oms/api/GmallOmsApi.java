@@ -20,4 +20,7 @@ public interface GmallOmsApi {
             @PathVariable("orderToken")String orderToken,
             @RequestParam("userId")Long userId
     );
+
+    @GetMapping("oms/order/orderToken/{orderToken}")
+    public ResponseVo<OrderEntity> queryOrderByToken(@PathVariable("orderToken")String orderToken);
 }
