@@ -43,7 +43,9 @@ public class GmallAspect {
 
     @Around("@annotation(GmallCache)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-     log.info("进入到aop了..");
+        RLock lock1 = redisson.getLock("呵呵");
+
+        log.info("进入到aop了..");
         //获取注解相关参数
         List<Object> args= Arrays.asList(joinPoint.getArgs());
 
