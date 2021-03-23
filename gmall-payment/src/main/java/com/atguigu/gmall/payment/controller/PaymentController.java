@@ -2,6 +2,7 @@ package com.atguigu.gmall.payment.controller;
 
 import com.alipay.api.AlipayApiException;
 
+import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.oms.entity.OrderEntity;
 
 import com.atguigu.gmall.payment.pojo.PayAsyncVo;
@@ -54,4 +55,6 @@ public class PaymentController {
         String result = paymentService.payOk(payAsyncVo);
         return result;
     }
+
 }
+

@@ -301,15 +301,12 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         if (!hashOps.hasKey(cart.getSkuId().toString())) {
             throw new GmallException("该用户没有对应的购物车记录");
         }
-
         // 用户要更新的数量
         BigDecimal count = cart.getCount();
-
         // 查询redis中的购物车记录
         String json = hashOps.get(cart.getSkuId().toString()).toString();
         cart = JSON.parseObject(json, Cart.class);
         cart.setCount(count); // 更新购物车中的商品数量
-
         hashOps.put(cart.getSkuId().toString(), JSON.toJSONString(cart));
         this.cartAsyncService.update(userId,cart, new QueryWrapper<Cart>().eq("user_id", userId).eq("sku_id", cart.getSkuId()));
     }
